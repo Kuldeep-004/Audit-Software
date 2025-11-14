@@ -4,8 +4,8 @@ const util = require('util');
 const execPromise = util.promisify(exec);
 const fs = require('fs').promises;
 const path = require('path');
-//AIzaSyCLVtDvkzCVmjfkGZuxCDAytsCVfyCodN0
-const genAI = new GoogleGenerativeAI('AIzaSyA12zKQqVl9VDqSJXJgB_VvkLJTMonhOlg'); 
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_1); 
 
 async function convertPdfToImages(pdfPath) {
   try {
@@ -129,17 +129,19 @@ Take your time to process the image thoroughly and return accurate results and R
       const resultsArray = parsedArray.map(parsedData => {
         let gross = null;
         let net = null;
-        gross = Number(parsedData.grossnet[0]);
-        net = Number(parsedData.grossnet[1]);
         let grossnet = false;
-        if (
-          gross !== null && net !== null &&
-          !isNaN(gross) && !isNaN(net)
-        ) {
-          grossnet = gross === net;
-        }
-        if(parsedData.grossnet[0]===null || parsedData.grossnet[1]===null){
-          grossnet=false;
+        if (Array.isArray(parsedData.grossnet) && parsedData.grossnet.length >= 2) {
+          gross = Number(parsedData.grossnet[0]);
+          net = Number(parsedData.grossnet[1]);
+          if (
+            gross !== null && net !== null &&
+            !isNaN(gross) && !isNaN(net)
+          ) {
+            grossnet = gross === net;
+          }
+          if(parsedData.grossnet[0]===null || parsedData.grossnet[1]===null){
+            grossnet=false;
+          }
         }
         return {
           cgst: parsedData.cgst !== null ? Number(parsedData.cgst) : null,
