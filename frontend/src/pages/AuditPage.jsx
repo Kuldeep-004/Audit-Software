@@ -30,7 +30,7 @@ const AuditPage = () => {
     try {
       const formData = new FormData();
       formData.append('pdfFile', pdfFile);
-      const response = await axios.post('http://localhost:5000/api/comparison/get-page-count', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/comparison/get-page-count`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -109,7 +109,7 @@ const AuditPage = () => {
     formData.append('docsFile', files.docsFile);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/comparison/compare', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/comparison/compare`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -141,7 +141,7 @@ const AuditPage = () => {
     }
 
     try {
-      const response = await axios.post(`http://localhost:5000/api/comparison/download/${type}`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/comparison/download/${type}`, {
         data: comparisonResults
       }, {
         responseType: 'blob'

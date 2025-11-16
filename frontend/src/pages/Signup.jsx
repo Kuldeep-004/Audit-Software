@@ -20,7 +20,7 @@ const Signup = ({ setIsAuthenticated }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/signup', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/signup`, {
         name: formData.name,
         email: formData.email,
         password: formData.password,
