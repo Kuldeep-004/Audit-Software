@@ -41,7 +41,7 @@ async function convertPdfToImages(pdfPath) {
 
 async function analyzeInvoiceImage(imageBase64) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const prompt = `You are an expert in extracting product entries and key invoice details from invoice table images.Extract all the given details for each product in invoice.Never create nested objects. 
     THE VERY MOST CRITICAL: Number of products in invoice=Rows containing HSN/SAC number in invoice. MOST CRUCIAL NEVER skip any product from any invoice.even return null for any product you dont understand but never skip. From previous interations you commonly skipping products, never do that.  
 STRICTLY return all the given values for each product in invoice.NEVER round off any data if invoice has 0.76 then don't convert it to 0.75.
